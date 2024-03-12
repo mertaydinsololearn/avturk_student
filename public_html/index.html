@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Öğrenci Not Sistemi</title>
+
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+    <div class="site-wrap d-md-flex align-items-stretch">
+        <div class="bg-img" style="background-image: url('images/img-bg-1.jpg')"></div>
+        <div class="form-wrap" id="sign_in_form_div">
+            <div class="form-inner">
+                <div class="text-center">
+                    <img src="teacher.webp"  alt="teacher"/>
+                </div>
+                <p class="title"><b>Giriş Yapın</b></p>
+                <p class="caption mb-4">Hoş geldiniz</p>
+
+                <form  action="sign_in.php" class="pt-3" id="sign_in_form" method="POST">
+                    <div class="form-floating">
+                        <input type="email" class="form-control sign_input" id="sign_in_email" placeholder="ali@hotmail.com" name="email">
+                        <label for="sign_in_email">E-posta</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <span class="password-show-toggle js-password-show-toggle" id="sign_in_show"><span class="uil"></span></span>
+                        <input type="password" class="form-control sign_input" id="sign_in_password" name="password" placeholder="Password">
+                        <label for="sign_in_password">Şifre</label>
+                    </div>                    
+                    <div class="d-grid mb-4">
+                        <button type="submit" class="btn btn-primary">Giriş Yapın</button>
+                    </div>
+
+                    <div class="mb-2">Hesabınız yok mu? <a href="#" id="switch_sign_in">Kayıt olun</a></div>
+                </form>
+            </div>
+        </div>
+        <div class="form-wrap hidden" id="sign_up_form_div">
+            <div class="form-inner">
+                <div class="text-center">
+                    <img src="teacher.webp"  alt="teacher"/>
+                </div>
+                <h1 class="title">Kayıt Olun</h1>
+                <p class="caption mb-4">Hoş geldiniz</p>
+
+                <form action="sign_up.php"  class="pt-3" id="sign_up_form" method="POST">
+
+                    <div class="form-floating">
+                        <input type="text" class="form-control sign_input" id="first_name" placeholder="İsminiz" name="fname">
+                        <label for="name">Ad</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <input type="text" class="form-control sign_input" id="last_name" placeholder="Soyadınız" name="lname">
+                        <label for="last_name">Soyad</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <input type="email" class="form-control sign_input" id="sign_up_email" name="email" placeholder="info@example.com">
+                        <label for="sign_up_email">E-posta</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <span class="password-show-toggle js-password-show-toggle" id="sign_up_show"><span class="uil"></span></span>
+                        <input type="password" class="form-control sign_input" id="sign_up_password" placeholder="Password" name="password">
+                        <label for="sign_up_password">Şifre</label>
+                    </div>
+
+                    <div class="d-grid mb-4">
+                        <button type="submit" class="btn btn-primary">Kaydolun</button>
+                    </div>
+
+                    <div class="mb-2">Zaten hesabınız var mı? <a href="#" id="switch_sign_up">Giriş Yapın</a></div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="js/custom.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+
+    </body>
+</html>
