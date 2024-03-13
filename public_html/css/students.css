@@ -1,0 +1,7 @@
+.hidden {
+    display: none;
+}
+
+.student-input, .student-add-btn {
+    max-width: 250px; 
+}

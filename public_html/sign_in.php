@@ -1,8 +1,6 @@
 <?php
-session_start();
-
-$email = trim(isset($_POST['email']) ? $_POST['email'] : '');
-$password = isset($_POST['password']) ? $_POST['password'] : '';
+$email = isset($_POST['email']) ? trim($_POST['email']) : '';
+$password = isset($_POST['password']) ? trim($_POST['password']) : '';
 
 // Validate input
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
@@ -37,7 +35,7 @@ if ($conn->connect_error) {
 }
 
 // Check user's information
-$stmt = $conn->prepare("SELECT email, password FROM users WHERE email = ?");
+$stmt = $conn->prepare("SELECT id, email, password FROM users WHERE email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -49,22 +47,27 @@ if ($email_exist > 0) {
     $row = $result->fetch_assoc();
     if (password_verify($password, $row['password'])) {
         // Passwords match, proceed with logging in
+        session_start();
         $_SESSION['logged_in'] = true;
         $_SESSION['email'] = $email;
+        $_SESSION['user_id'] =  $row['id'];
         echo("1");
+        $stmt->close(); 
+        $conn->close();
         exit();
     } else {
         // Passwords do not match
         echo("-1");
+        $stmt->close();
+        $conn->close();
         exit();
     }
 } else {
     // Email does not exist in the database
     echo("-1");
+    $stmt->close();
+    $conn->close();
     exit();
 }
 
-// Close the connection and free result
-$stmt->close();
-$conn->close();
 ?>

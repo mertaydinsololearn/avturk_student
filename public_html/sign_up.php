@@ -1,13 +1,8 @@
 <?php
-session_start();
-
-$fname = trim(isset($_POST['fname']) ? $_POST['fname'] : '');
-$lname = trim(isset($_POST['lname']) ? $_POST['lname'] : '');
-$email = trim(isset($_POST['email']) ? $_POST['email'] : '');
-$password = isset($_POST['password']) ? $_POST['password'] : '';
-
-
-
+$fname = isset($_POST['fname']) ? trim($_POST['fname']) : '';
+$lname = isset($_POST['lname']) ? trim($_POST['lname']) : '';
+$email = isset($_POST['email']) ? trim($_POST['email']) : '';
+$password = isset($_POST['password']) ? trim($_POST['password']) : '';
 
 // Validate input
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
@@ -29,11 +24,6 @@ if (strlen($fname) > 100 || strlen($lname) > 100 || strlen($email) > 255 || strl
 // Add salt and hash the password
 $password = password_hash($password, PASSWORD_DEFAULT);
 
-
-echo "First Name: " . htmlspecialchars($fname) . "<br>";
-echo "Last Name: " . htmlspecialchars($lname) . "<br>";
-echo "Email: " . htmlspecialchars($email) . "<br>";
-echo "Password: " . htmlspecialchars($password) . "<br>";
 
 // Create a database connection 
 $servername = "127.0.0.1";
@@ -76,8 +66,10 @@ $stmt->close();
 
   $stmt->close();
   $conn->close();
+  session_start();
   $_SESSION['logged_in'] = true;
   $_SESSION['email'] = $email;
+  $_SESSION['user_id'] =  $mysqli->insert_id;
   echo("1");
   exit();
 
