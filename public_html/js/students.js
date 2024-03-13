@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             e.preventDefault();
         } else {
             e.preventDefault();
+            
             $.post("add_student.php", {fname: firstNameVal, lname: lastNameVal}, function(data) {
                 var parsedData = JSON.parse(data);
                 if (parsedData == 0) {
@@ -49,42 +50,62 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     var insertedFirstName = insertedData.first_name;
                     var insertedLastName = insertedData.last_name;
                     var insertedStudentNumber = insertedData.student_number;
+
+                    var successInfo =  document.getElementById("success-info");
+                    var newText = "" + insertedFirstName + " " + insertedLastName + " adındaki " + insertedStudentNumber + " numaralı öğrenci başarıyla eklendi"; 
+                    successInfo.innerText = newText;
+                    
                     
                     var newRowHtml = 
                         '<tr id="' + insertedStudentNumber + '">' +
-                            '<td>' +  '<input type="text" value="' + insertedFirstName + '"</td>' +
-                            '<td>' +   '<input type="text" value="' +insertedLastName + '"</td>' +
+                            '<td>' +  '<input type="text" class="table_first_name" value="' + insertedFirstName + '"</td>' +
+                            '<td>' +   '<input type="text"  class="table_last_name" value="' + insertedLastName + '"</td>' +
                             '<td>' + insertedStudentNumber + '</td>' +
                             '<td><a class="btn btn-info btn-sm update-button">Güncelle</a></td>' +
-                            '<td><a href="grades.php?studentId=' + insertedStudentNumber +  '&fname=' + insertedFirstName + '&lname=' + insertedLastName + '" class="btn btn-info btn-sm">Notlar</a></td>' +
+                            '<td><a href="grades.php?studentId=' + insertedStudentNumber +  '&fname=' + insertedFirstName + '&lname=' + insertedLastName + '" class="btn btn-info btn-sm view-button">Notlar</a></td>' +
                             '<td><a class="btn btn-danger btn-sm delete-button">Sil</a></td>' +
                         '</tr>';
         
                     document.getElementById("student-table").insertAdjacentHTML('beforeend', newRowHtml);
-                    document.getElementById("not_found").remove();
+
+                    if(document.getElementById("not_found")) {
+                        document.getElementById("not_found").remove();
+                    }
                 }
             });
         }
     });
 
     // add event listeners to delete buttons
-    var deleteButtons = document.querySelectorAll('.delete-button');
-    deleteButtons.forEach(function(button) {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            // Find the parent <tr> element and remove it
-            var row = button.closest('tr');
+    document.getElementById("student-table").addEventListener('click', function(e) {
+        var target = e.target;
+        // Check if the clicked element is a delete button
+        if (target && target.classList.contains('delete-button')) {
+            var row = target.closest('tr');
+            var choice = confirm("Öğrenci ve öğrenciye ait tüm bilgilerin silinmesini onaylıyor musunuz?");
+            if (!choice) {
+                return;
+            } 
             if (row) {
                 var studentId = row.getAttribute('id');
 
                 $.post("delete_student.php", {studentId: studentId}, function(data) {                    
-                    
                     if (data == 1) {
-                        row.remove();
+
+                        var firstName = row.querySelector('.table_first_name').value;
+                        var lastName = row.querySelector('.table_last_name').value;
+
                         document.getElementById("error-info").classList.add("hidden");
                         document.getElementById("success-info").classList.add("hidden");
-                        document.getElementById("deletion-success").classList.remove("hidden");
                         document.getElementById("update-success-info").classList.add("hidden");
+                        document.getElementById("deletion-success").classList.remove("hidden");
+                        
+
+                        var deletionInfo =  document.getElementById("deletion-success");
+                        var newText = "" + firstName + " " + lastName + " adındaki " + studentId + " numaralı öğrenci başarıyla silindi"; 
+                        deletionInfo.innerText = newText;
+                        row.remove();
+  
                     } else if (data == 0) {
                         document.getElementById("error-info").classList.remove("hidden");
                         document.getElementById("success-info").classList.add("hidden");
@@ -96,18 +117,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 });
 
             }
-        });
+        }
     });
 
 
 
-    // add event listeners to update buttons
-    var deleteButtons = document.querySelectorAll('.update-button');
-    deleteButtons.forEach(function(button) {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            // Find the parent <tr> element and remove it
-            var row = button.closest('tr');
+
+     // add event listeners to delete buttons
+     document.getElementById("student-table").addEventListener('click', function(e) {
+        var target = e.target;
+        // Check if the clicked element is a delete button
+        if (target && target.classList.contains('update-button')) {  
+        var row = target.closest('tr');
+
             if (row) {
                 var studentId = row.getAttribute('id');
 
@@ -150,7 +172,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         document.getElementById("success-info").classList.add("hidden");
                         document.getElementById("deletion-success").classList.add("hidden");
                         document.getElementById("update-success-info").classList.remove("hidden");
+                        
+                        var updateInfo =  document.getElementById("update-success-info");
+                        var newText = "" + firstNameVal + " " + lastNameVal + " adındaki " + studentId + " numaralı öğrencinin bilgisi başarıyla güncellendi"; 
+                        updateInfo.innerText = newText;
+                        
 
+                        
                     } else if (data == 0) {
                         document.getElementById("error-info").classList.remove("hidden");
                         document.getElementById("success-info").classList.add("hidden");
@@ -162,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             }
         }
-        });
+    }
     });
 
 

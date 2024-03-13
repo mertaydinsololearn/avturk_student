@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	        subjectId.reportValidity();
 	    } if (valid && !classPeriodVal) {
             valid = false;
-	        classPeriod.setCustomValidity("Lütfen bir sayı giriniz");
+	        classPeriod.setCustomValidity("Lütfen 1-10 arası bir sayı giriniz");
 	        classPeriod.reportValidity();
         } if (valid && !courseGradeVal) {
             valid = false;
@@ -37,24 +37,30 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 var parsedData = JSON.parse(data);
                 if (parsedData == 0) {
                     document.getElementById("success-info").classList.add("hidden");
-                    document.getElementById("error-info").classList.remove("hidden");
                     document.getElementById("deletion-success").classList.add("hidden");
+                    document.getElementById("update-success-info").classList.add("hidden");
+                    document.getElementById("error-info").classList.remove("hidden");
 
                 } else {
                     document.getElementById("error-info").classList.add("hidden");
-                    document.getElementById("success-info").classList.remove("hidden");
+                    document.getElementById("update-success-info").classList.add("hidden");
                     document.getElementById("deletion-success").classList.add("hidden");
+                    document.getElementById("success-info").classList.remove("hidden");
         
                     var insertedData = parsedData.result;
                     var insertedGradeId = insertedData.id;
 
+                    var successInfo =  document.getElementById("success-info");
+                    var newText = "" + subjectIdText + " adlı " + classPeriodVal + " dönemindeki not başarıyla eklendi"; 
+                    successInfo.innerText = newText;
+
                     
                     var newRowHtml = 
                         '<tr id="' + insertedGradeId + '">' +
-                            '<td>' + subjectIdText + '</td>' +
-                            '<td>' + classPeriodVal + '</td>' +
-                            '<td>' + courseGradeVal + '</td>' +
-                            '<td><a class="btn btn-info btn-sm">Güncelle</a></td>' +
+                            '<td class="grade_table_subject">' + subjectIdText + '</td>' +
+                            '<td>' + '<input type="number" min="1" max="10" class="grades-input grade_table_period" value="' +  classPeriodVal + '"/></td>' +
+                            '<td>' + '<input type="number" min="0" max="100" class="grades-input grade_table_grade" value="' + courseGradeVal + '"/></td>' +
+                            '<td><a class="btn btn-info btn-sm update-button">Güncelle</a></td>' +
                             '<td><a class="btn btn-danger btn-sm delete-button">Sil</a></td>' +
                         '</tr>';
         
@@ -65,34 +71,106 @@ document.addEventListener("DOMContentLoaded", function(event) {
     });
 
     // add event listeners to delete buttons
-    var deleteButtons = document.querySelectorAll('.delete-button');
-    deleteButtons.forEach(function(button) {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            // Find the parent <tr> element and remove it
-            var row = button.closest('tr');
+    document.getElementById("grades-table").addEventListener('click', function(e) {
+        var target = e.target;
+        // Check if the clicked element is a delete button
+        if (target && target.classList.contains('delete-button')) {
+            var row = target.closest('tr');
             if (row) {
                 var gradeId = row.getAttribute('id');
 
                 $.post("delete_grade.php", {gradeId: gradeId}, function(data) {                    
                     
                     if (data == 1) {
-                        row.remove();
+
+                        var subject = row.querySelector('.grade_table_subject').innerText;
+                        var period = row.querySelector('.grade_table_period').value;
+                        var grade = row.querySelector('.grade_table_grade').value;
+
                         document.getElementById("error-info").classList.add("hidden");
                         document.getElementById("success-info").classList.add("hidden");
+                        document.getElementById("update-success-info").classList.add("hidden");
                         document.getElementById("deletion-success").classList.remove("hidden");
+
+                       
+                        var deletionInfo =  document.getElementById("deletion-success");
+                        var newText = "" + subject + "  adlı " + period + " dönemi " + grade + " notu başarıyla silindi"; 
+                        deletionInfo.innerText = newText;
+                        row.remove();
+
                     } else if (data == 0) {
-                        document.getElementById("error-info").classList.remove("hidden");
                         document.getElementById("success-info").classList.add("hidden");
+                        document.getElementById("update-success-info").classList.add("hidden");
                         document.getElementById("deletion-success").classList.add("hidden");
+                        document.getElementById("error-info").classList.remove("hidden");
                     } 
 
                 });
 
             }
+        }
         });
-    });
+        
 
+
+
+
+     // add event listeners to delete buttons
+     document.getElementById("grades-table").addEventListener('click', function(e) {
+        var target = e.target;
+        // Check if the clicked element is a delete button
+        if (target && target.classList.contains('update-button')) {  
+        var row = target.closest('tr');
+     if (row) {
+        var valid = true;
+         var gradeId = row.getAttribute('id');
+         var period = row.querySelector('.grade_table_period');
+         var grade = row.querySelector('.grade_table_grade');
+
+         var subject = row.querySelector('.grade_table_subject').innerText;
+
+         console.log(grade.value);
+         if (!period.value) {
+            valid = false;
+	        period.setCustomValidity("Lütfen 1-10 arası bir sayı giriniz");
+	        period.reportValidity();
+        } if (valid && !grade.value) {
+            valid = false;
+	        grade.setCustomValidity("Lütfen 0-100 arası bir sayı giriniz");
+	        grade.reportValidity();
+        }
+
+        if (!valid) {
+            e.preventDefault();
+        } else {
+            e.preventDefault();
+       $.post("update_grade.php", {gradeId: gradeId, period : period.value, grade: grade.value }, function(data) {                    
+         
+         if (data == 1) {
+
+             document.getElementById("error-info").classList.add("hidden");
+             document.getElementById("success-info").classList.add("hidden");
+             document.getElementById("deletion-success").classList.add("hidden");
+             document.getElementById("update-success-info").classList.remove("hidden");
+            
+             var updateInfo =  document.getElementById("update-success-info");
+             var newText = "" + subject + "  adlı " + period.value + " dönemi için " + grade.value + " notu başarıyla güncellendi"; 
+             updateInfo.innerText = newText;
+
+         } else if (data == 0) {
+             document.getElementById("success-info").classList.add("hidden");
+             document.getElementById("update-success-info").classList.add("hidden");
+             document.getElementById("deletion-success").classList.add("hidden");
+             document.getElementById("error-info").classList.remove("hidden");
+
+         } 
+
+     });
+
+ }
+}
+        }
+});
 
     // Select all elements with class 'sign_input'
 var signInputs = document.querySelectorAll('.grades-input');

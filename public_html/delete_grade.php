@@ -6,15 +6,15 @@ if (!isset($_SESSION['logged_in'])){
     exit();
 }
 
-$studentId = isset($_POST['studentId']) ? $_POST['studentId'] : 0;
+$gradeId = isset($_POST['gradeId']) ? $_POST['gradeId'] : 0;
 
 // Validate if $id is a valid integer
-if ($studentId  == 0 || !is_numeric($studentId)) {
-    header("Location: student.php");
+if ($gradeId  == 0 || !is_numeric($gradeId)) {
+    echo("0");
     exit();
 }
 
-$studentId  = intval($studentId);
+$gradeId  = intval($gradeId);
 
 // Create a database connection 
 $servername = "127.0.0.1";
@@ -31,8 +31,8 @@ if ($conn->connect_error) {
 }
 
 // Delete student
-$stmt = $conn->prepare("DELETE FROM students WHERE student_number = ?");
-$stmt->bind_param("i",  $studentId); 
+$stmt = $conn->prepare("DELETE FROM grades WHERE id = ?");
+$stmt->bind_param("i",  $gradeId); 
 $result = $stmt->execute(); // Execute the prepared statement
 
 

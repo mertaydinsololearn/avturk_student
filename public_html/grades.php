@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if (empty($_SESSION['logged_in'])){
+if (!isset($_SESSION['logged_in'])){
     header("Location: index.html");
     exit();
 }
@@ -36,7 +36,7 @@ if ($conn->connect_error) {
 $grades = null;
 $subjects = null;
 // get grades
-$stmt = $conn->prepare("SELECT g.id, g.period, s.subject_name, s.weight  FROM grades  AS g INNER JOIN subjects AS s  ON g.subject_id = s.id WHERE g.student_id = ?");
+$stmt = $conn->prepare("SELECT g.id, g.period, g.grade, s.subject_name, s.weight  FROM grades  AS g INNER JOIN subjects AS s  ON g.subject_id = s.id WHERE g.student_id = ?");
 $stmt->bind_param("i",  $studentId); 
 $stmt->execute();
 $result = $stmt->get_result(); // get the mysqli result
@@ -49,7 +49,7 @@ $stmt->close();
 
 
 // get subject names 
-$stmt = $conn->prepare("SELECT id,  subject_name FROM subjects");
+$stmt = $conn->prepare("SELECT id, subject_name FROM subjects");
 $stmt->execute();
 $result = $stmt->get_result(); // get the mysqli result
 
@@ -88,6 +88,9 @@ $conn->close();
         </div>
         <div class="alert alert-danger error-info hidden" id="error-info" role="alert">
             Veritabanında bir arıza oluştu. LÜtfen kısa bir süre sonra tekrar deneyin.
+        </div>
+        <div class="alert alert-success  hidden"  id="update-success-info" role="alert">
+            Öğrenci Başarıyla Güncellendi
         </div>
         <div class="alert alert-success hidden"  id="deletion-success" role="alert">
             Not Başarıyla Silindi
@@ -142,9 +145,9 @@ $conn->close();
             if (!empty($grades)) {
             foreach ($grades as $grade) {
                  echo '<tr id="' . $grade['id'] . '">';
-                echo '<td><input type="text" value="' . $grade['subject'] . '"></td>';
-                echo '<td><input type="text" value="' . $grade['period'] . '"></td>';
-                echo '<td><input type="number" min="0" max="100" value="' . $grade['grade'] . '"></td>';
+                echo '<td class="grade_table_subject">' . $grade['subject_name'] . '</td>';
+                echo '<td>' . '<input type="number" min="1" max="10" class="grades-input grade_table_period" value="' . $grade['period'] . '"/></td>';
+                echo '<td>'  . '<input type="number" min="0" max="100" class="grades-input grade_table_grade" value="' .  $grade['grade'] . '"/></td>';
                 echo '<td><a class="btn btn-info btn-sm update-button">Güncelle</a></td>';
                 echo '<td><a class="btn btn-danger btn-sm delete-button">Sil</a></td>';
                 echo '</tr>';

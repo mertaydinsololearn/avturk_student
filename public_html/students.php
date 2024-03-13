@@ -1,6 +1,6 @@
 <?php 
     session_start();
-    if (empty($_SESSION['logged_in'])){
+    if (!isset($_SESSION['logged_in'])){
         header("Location: index.html");
         exit();
     }
@@ -54,9 +54,9 @@
             Öğrenci Başarıyla Güncellendi
         </div>
         <div class="alert alert-danger error-info hidden" id="error-info" role="alert">
-            Veritabanında bir arıza oluştu. LÜtfen kısa bir süre sonra tekrar deneyin.
+            Veritabanında bir arıza oluştu. Lütfen kısa bir süre sonra tekrar deneyin.
         </div>
-        <div class="alert alert-success hidden"  id="deletion-success" role="alert">
+        <div class="alert alert-danger hidden"  id="deletion-success" role="alert">
             Öğrenci Başarıyla Silindi
         </div>
         
