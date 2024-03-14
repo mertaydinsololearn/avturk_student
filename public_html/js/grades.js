@@ -117,12 +117,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
     
              var subject = row.querySelector('.grade_table_subject').innerText;
     
-             console.log(grade.value);
              if (!period.value) {
                 valid = false;
                 period.setCustomValidity("Lütfen 1-10 arası bir sayı giriniz");
                 period.reportValidity();
+            } else if(period.value <= 0 || period.value > 10) {
+                valid = false;
+                period.setCustomValidity("Lütfen 1-10 arası bir sayı giriniz");
+                period.reportValidity();
             } if (valid && !grade.value) {
+                valid = false;
+                grade.setCustomValidity("Lütfen 0-100 arası bir sayı giriniz");
+                grade.reportValidity();
+            } else if (valid && (grade.value < 0  || grade.value > 100)) {
                 valid = false;
                 grade.setCustomValidity("Lütfen 0-100 arası bir sayı giriniz");
                 grade.reportValidity();

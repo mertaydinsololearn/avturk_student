@@ -112,13 +112,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	        lastName.setCustomValidity("Lütfen daha kısa bir soyisim");
 	        lastName.reportValidity();
 	    } 
-      if (valid && emailVal.length > 255){
+      if (valid && emailVal.length > 100){
             valid = false;
 	        email.setCustomValidity("Lütfen daha kısa bir e-posta yazınız");
 	        email.reportValidity();
 	    } 
         
-      if (valid && passwordVal.length > 255){
+      if (valid && passwordVal.length > 100){
             valid = false;
 		    password.setCustomValidity("Daha kısa bir şifre giriniz");
 		    password.reportValidity();
