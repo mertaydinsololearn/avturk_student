@@ -5,3 +5,21 @@
 .student-input, .student-add-btn {
     max-width: 250px; 
 }
+
+.table {
+    max-width: 100%;
+}
+
+ @media (max-width: 800px) {
+    .table th,
+.table td,
+.table input {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    white-space: nowrap;
+}
+
+ }
+
+

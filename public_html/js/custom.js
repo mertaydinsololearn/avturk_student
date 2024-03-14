@@ -56,28 +56,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var password =  document.getElementById("sign_in_password");
         var passwordVal = password.value;
 
-        if (!emailVal.match(/^\S+\s?\@\S+\s?\.\S+\s?$/gi)){
-            valid = false;
-	         email.setCustomValidity("Lütfen geçerli bir e-posta adresi yazınız");
-	        email.reportValidity();
-	    } else if (emailVal.length == 0){
-            valid = false;
-	        email.setCustomValidity("Bu alanı doldurmanız gerekmektedir");
-	        email.reportValidity();
-	    } else if (emailVal.length > 255){
+       if (emailVal.length > 255){
             valid = false;
 	        email.setCustomValidity("Lütfen daha kısa bir e-posta yazınız");
 	        email.reportValidity();
 	    } 
-        if (valid && passwordVal.length == 0 ){
-            valid = false;
-	        password.setCustomValidity("Bu alanı doldurmanız gerekmektedir");
-	        password.reportValidity();
-	    } else if (valid && passwordVal.length < 8) {
-            valid = false;
-	        password.setCustomValidity("Şifreniz en az 8 karakterden oluşmalıdır.");
-	        password.reportValidity();
-	    } else if (valid && passwordVal.length > 255){
+    if (valid && passwordVal.length > 255){
             valid = false;
 		    password.setCustomValidity("Daha kısa bir şifre giriniz");
 		    password.reportValidity();
@@ -118,48 +102,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var passwordVal = password.value;
 
 
-         if (firstNameVal.length == 0){
-            valid = false;
-	        firstName.setCustomValidity("Bu alanı doldurmanız gerekmektedir");
-	        firstName.reportValidity();
-	    } else if (firstNameVal.length > 255){
+       if (firstNameVal.length > 255){
             valid = false;
 	        firstName.setCustomValidity("Lütfen daha kısa bir isim yazınız.");
 	        firstName.reportValidity();
 	    } 
-        if (lastNameVal.length == 0){
-            valid = false;
-	        lastName.setCustomValidity("Bu alanı doldurmanız gerekmektedir.");
-	        lastName.reportValidity();
-	    } else if (lastNameVal.length > 255){
+        if (valid && lastNameVal.length > 255){
             valid = false;
 	        lastName.setCustomValidity("Lütfen daha kısa bir soyisim");
 	        lastName.reportValidity();
 	    } 
-        
-        if (!emailVal.match(/^\S+\s?\@\S+\s?\.\S+\s?$/gi)){
-            valid = false;
-	         email.setCustomValidity("Lütfen geçerli bir e-posta adresi yazınız");
-	        email.reportValidity();
-	    } else if (emailVal.length == 0){
-            valid = false;
-	        email.setCustomValidity("Bu alanı doldurmanız gerekmektedir");
-	        email.reportValidity();
-	    } else if (emailVal.length > 255){
+      if (valid && emailVal.length > 255){
             valid = false;
 	        email.setCustomValidity("Lütfen daha kısa bir e-posta yazınız");
 	        email.reportValidity();
 	    } 
         
-        if (valid && passwordVal.length == 0 ){
-            valid = false;
-	        password.setCustomValidity("Bu alanı doldurmanız gerekmektedir");
-	        password.reportValidity();
-	    } else if (valid && passwordVal.length < 8) {
-            valid = false;
-	        password.setCustomValidity("Şifreniz en az 8 karakterden oluşmalıdır.");
-	        password.reportValidity();
-	    } else if (valid && passwordVal.length > 255){
+      if (valid && passwordVal.length > 255){
             valid = false;
 		    password.setCustomValidity("Daha kısa bir şifre giriniz");
 		    password.reportValidity();

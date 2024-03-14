@@ -78,6 +78,13 @@ $conn->close();
 </head>
 <body>
     <div class="container mt-5">
+    <a href="students.php">Öğrenci Listesine Dön</a>
+    <hr />
+    <div class="mb-4 mr-5">
+             <button type="submit" class="btn btn-primary" id="average-button">Ağırlıklı Ortalamayı Bul</button>
+             <span class="pl-5" id="average_span">Ortalama:</span>
+     </div>
+<hr />
         <h1>Notlar</h1>
         <?php 
             echo '<p>Öğrencinin adı: ' . $fname. ' Soyadı: '. $lname. ' Öğrenci Numarası: ' . $studentId . '</p>';  
@@ -127,8 +134,8 @@ $conn->close();
                 </form>
             </div>
         </div>
-       
-        <table class="table table-bordered table-striped">
+       <div class="table-responsive">
+       <table class="table table-bordered table-striped">
             <thead class="table-dark">
                 <tr>
                     <th>Ad</th>
@@ -156,6 +163,8 @@ $conn->close();
 ?>
             </tbody>
         </table>
+    </div>
+        
     </div>
     <script src="js/grades.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>

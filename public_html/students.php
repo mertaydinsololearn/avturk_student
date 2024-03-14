@@ -45,7 +45,7 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1>Öğrencileriniz</h1>
+        <h1>Öğrenciler</h1>
         <hr />
         <div class="alert alert-success  hidden"  id="success-info" role="alert">
             Öğrenci Başarıyla Eklendi
@@ -79,8 +79,8 @@
                 </form>
             </div>
         </div>
-       
-        <table class="table table-bordered table-striped">
+       <div class="table-responsive">
+       <table class="table table-bordered table-striped ">
             <thead class="table-dark">
                 <tr>
                     <th>İsim</th>
@@ -116,8 +116,10 @@
 
             </tbody>
         </table>
+        </div>
     </div>
-    <script src="js/students.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <script src="js/students.js"></script>
+
 </body>
 </html>
