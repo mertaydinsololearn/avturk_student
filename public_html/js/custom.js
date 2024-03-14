@@ -67,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		    password.reportValidity();
     	}
 
+
         if (!valid) {
             e.preventDefault();
         } else {
@@ -157,5 +158,25 @@ signInputs.forEach(function(element) {
     });
 });
 
+
+//As when a password or email doesn't match or can't be found one of them is called with setCustomValidity & reportValidity the other gets affected
+document.getElementById("sign_in_email").addEventListener("input", (e) => {
+    document.getElementById("sign_in_password").setCustomValidity('');
+    document.getElementById("sign_in_password").reportValidity();
+});
+document.getElementById("sign_in_password").addEventListener("input", (e) => {
+    document.getElementById("sign_in_email").setCustomValidity('');
+    document.getElementById("sign_in_email").reportValidity();
+});
+
+
+document.getElementById("sign_up_email").addEventListener("input", (e) => {
+    document.getElementById("sign_up_password").setCustomValidity('');
+    document.getElementById("sign_up_password").reportValidity();
+});
+document.getElementById("sign_up_password").addEventListener("input", (e) => {
+    document.getElementById("sign_up_email").setCustomValidity('');
+    document.getElementById("sign_up_email").reportValidity();
+});
 
 });
